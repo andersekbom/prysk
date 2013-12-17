@@ -1,0 +1,61 @@
+from random import randint
+
+#territories = []
+#territories.append({"Index":"0", "Name":"Iceland", "Troops":"2", "Owner":"Player1"})
+#territories.append({"Index":"1", "Name":"Greenland", "Troops":"3", "Owner":"Player2"})
+#territories.append({"Index":"2", "Name":"Western Europe", "Troops":"3", "Owner":"Player3"})
+#territories.append({"Index":"3", "Name":"Eastern Europe", "Troops":"5", "Owner":"Player4"})#
+
+terrStars = {}
+terrOwners = {}
+terrTroops = {}
+terrList = []
+terrRev = {}
+
+players = ["Anders","Anna"]
+
+
+def buildMap():
+    terrFile = open("main/territories.txt")
+    territories = terrFile.readlines()
+
+    for terr in territories:
+        troops = terr.split(',')
+        addTerritory(terr.rstrip('\n,123'),players[randint(0,1)],troops[1].rstrip('\n'))    
+
+
+def addTerritory(name, owner, troops):
+    terrList.append(name)
+    terrOwners[name] = owner
+    terrTroops[name] = troops
+    terrRev[owner] = name 
+
+def setTroops(territory, troops):
+    terrTroops[territory] = troops
+
+
+def setOwner(territory, owner):
+    terrOwners[territory] = owner
+
+    
+def getTerritoryData(territory):
+    terrOwner = terrOwners[territory]
+    terrTroop = terrTroops[territory]
+    return terrOwner,terrTroop
+    
+    
+def listTerritories():
+    i=0
+    for territory in terrList:
+        i+=1
+        print "[%s]:" % i, territory, "(%s troops)" % terrTroops[territory]
+
+def listMyTerritories(playerName):
+    for owner in terrOwners:
+        print terrOwners[playerName]
+
+
+buildMap()
+
+listMyTerritories("Anders")
+        

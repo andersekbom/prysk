@@ -1,0 +1,8 @@
+Alaska,Northwest Territory,Kamchatka
+Alberta,Northwest Territory,Ontario,Western United States
+Central America,Eastern United States,Western United States,Venezuela
+Eastern United States,Central America,Western United States
+Greenland,Nortern Territories,Quebec,Ontario,Iceland
+Northwest Territory,Alaska,Greenland,Alberta,Ontario
+Ontario,Quebec,Eastern United States,Western United States,Alberta,Northwest Territories,Greenland
+Quebec,Ontario,Eastern United States,Greenland

@@ -1,0 +1,106 @@
+from random import randint
+from random import shuffle
+import sqlite3
+import classes
+import os
+
+
+## Create main dictionary to hold stuff
+territories = {}
+
+print "Setting up the map..."
+
+players = ["Red","Yellow","Green","Grey","Blue"]
+## Randomize the order of the players
+shuffle(players)
+
+
+def initMap():
+
+    
+    ## Open file with territories and starting troops
+    terrFile = open("main/territories.txt")
+    terrFileList = terrFile.readlines()
+    shuffle(terrFileList)
+
+    ## Tell us what's going on
+    print "There are %s players." % len(players)
+    print "There are %s territories." % len(terrFileList)
+    terrPerPlayer = divmod(len(terrFileList),len(players))
+    print "There are %s territories per player," % terrPerPlayer[0],
+    print "and %s extra.\n" % terrPerPlayer[1]
+
+    ## Some inits
+    i=0 # plain ol' counter
+    l=0 # pointer for looping through territory list
+    
+    ## Loop through stuff, assigning territories as we go
+    for player in players:        ## Dictionary for player's territories
+        terrDict = {}
+        playerDict = {}
+        
+        for i in range (0,terrPerPlayer[0]):
+            # Get next line from territories list
+            terrLine = terrFileList[l].rstrip('\n'); l+=1
+
+            terrName = terrLine.rstrip('\n,123')
+            terrTroops = terrLine.split(',')[1].rstrip('\n')
+            terrPlayer = player
+            
+            terrDict[terrLine.rstrip('\n,123')] = terrLine.split(',')[1].rstrip('\n')
+            territories[player] = terrDict
+
+            # New style territory object thingy
+            #objTerritory = classes.Territory(terrName, terrTroops, terrPlayer)
+            #playerDict[terrName] = objTerritory
+            #territories[player] = playerDict
+
+
+    ## Distribute the remaining territories
+    ## TODO: Evenly distribute the remaining territories (instead of bad like now)
+    for i in range (0,terrPerPlayer[1]):
+
+        terrLine = terrFileList[l].rstrip('\n'); l+=1
+        terrName = terrLine.rstrip('\n,123')
+        terrTroops = terrLine.split(',')[1].rstrip('\n')
+
+        terrDict[terrLine.rstrip('\n,123')] = terrLine.split(',')[1].rstrip('\n')
+        territories[players[len(players)-1]] = terrDict    
+
+
+
+
+
+
+
+def moveTerritory(name, owner, troops):
+    pass
+
+def setTroops(territory, troops):
+    pass
+
+
+def setOwner(territory, owner):
+    pass
+
+    
+def getTerritoryData(territory):
+    pass
+    
+def listAttTerritories(objPlayer):
+    attTerrList = []
+    for terr in territories[objPlayer.name]:
+        if int(territories[objPlayer.name][terr]) > 1:
+            daString = terr,territories[objPlayer.name][terr]
+            attTerrList.append(daString)
+    return attTerrList
+
+def listDefTerritories(attackingPlayer):
+    defTerrList = []
+    for player in players:
+        if player != attackingPlayer.name:
+            for terr in territories[player]:
+                daString = terr,territories[player][terr]
+                defTerrList.append(daString)
+    return defTerrList
+
